@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina - European Cultural Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Lumina</div>
+        <nav class="nav">
+            <a href="#" class="nav-link">Collections</a>
+            <a href="#" class="nav-link">Styles</a>
+            <a href="#" class="nav-link">About</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="hero">
+            <h1 class="hero-title">Discover the interconnectedness of European Culture.</h1>
+            <p class="hero-subtitle">A semantic archive exploring art, music, and history across eras.</p>
+            
+            <div class="search-container">
+                <form class="search-form" id="search-form">
+                    <div class="input-group">
+                        <label for="keyword">Keyword</label>
+                        <input type="text" id="keyword" placeholder="e.g. Impressionism, Beethoven...">
+                    </div>
+                    <div class="input-group">
+                        <label for="period">Period / Style</label>
+                        <select id="period">
+                            <option value="all">All Styles</option>
+                            <option value="renaissance">Renaissance (15-16th C)</option>
+                            <option value="baroque">Baroque (17-18th C)</option>
+                            <option value="romanticism">Romanticism (19th C)</option>
+                            <option value="impressionism">Impressionism (19th C)</option>
+                            <option value="modern">Modern (20th C)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="domain">Domain</label>
+                        <select id="domain">
+                            <option value="all">All Domains</option>
+                            <option value="art">Fine Art</option>
+                            <option value="music">Music</option>
+                            <option value="architecture">Architecture</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section class="results-section" id="results-section">
+            <div class="results-header">
+                <h2>Featured Collections</h2>
+                <p>Showing curated results bridging art and music.</p>
+            </div>
+            
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Artworks will be injected here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
