@@ -8,7 +8,8 @@ const dummyData = [
         domain: "Fine Art",
         year: "1884-1886",
         region: "France",
-        tags: ["Pointillism", "Color Theory", "RGB"]
+        museum: "Art Institute of Chicago",
+        tags: ["Pointillism", "Color Theory"]
     },
     {
         id: 2,
@@ -18,6 +19,7 @@ const dummyData = [
         domain: "Music",
         year: "1808",
         region: "Germany/Austria",
+        museum: "N/A",
         tags: ["Sonata Form", "Per Aspera Ad Astra"]
     },
     {
@@ -28,6 +30,7 @@ const dummyData = [
         domain: "Fine Art",
         year: "1495-1498",
         region: "Italy",
+        museum: "Santa Maria delle Grazie (Milan)",
         tags: ["Linear Perspective", "Geometry"]
     },
     {
@@ -38,7 +41,8 @@ const dummyData = [
         domain: "Fine Art",
         year: "1942-1943",
         region: "Netherlands",
-        tags: ["Grid", "Primary Colors", "Algorithmic"]
+        museum: "MoMA (New York)",
+        tags: ["Grid", "Primary Colors"]
     },
     {
         id: 5,
@@ -48,6 +52,7 @@ const dummyData = [
         domain: "Fine Art",
         year: "c. 1660",
         region: "Netherlands",
+        museum: "Rijksmuseum (Amsterdam)",
         tags: ["Camera Obscura", "Light"]
     },
     {
@@ -58,7 +63,8 @@ const dummyData = [
         domain: "Music",
         year: "1908",
         region: "Austria",
-        tags: ["Atonality", "12-tone technique", "Algorithmic"]
+        museum: "N/A",
+        tags: ["Atonality", "12-tone technique"]
     }
 ];
 
@@ -92,6 +98,7 @@ function renderCards(data) {
                 <div class="card-meta">
                     <span>📅 ${item.year}</span>
                     <span>📍 ${item.region}</span>
+                    <span>🏛️ ${item.museum}</span>
                     <span>🎵/🎨 ${item.domain}</span>
                 </div>
                 <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--accent-color);">
@@ -114,12 +121,14 @@ searchForm.addEventListener('submit', (e) => {
     const keyword = document.getElementById('keyword').value.toLowerCase();
     const period = document.getElementById('period').value;
     const domain = document.getElementById('domain').value;
+    const museum = document.getElementById('museum').value;
 
     const filtered = dummyData.filter(item => {
-        // Simple keyword match across title, author, and tags
+        // Simple keyword match across title, author, tags, and museum
         const matchKeyword = keyword === '' || 
                              item.title.toLowerCase().includes(keyword) || 
                              item.author.toLowerCase().includes(keyword) ||
+                             (item.museum && item.museum.toLowerCase().includes(keyword)) ||
                              item.tags.some(tag => tag.toLowerCase().includes(keyword));
                              
         // Period match (simplified mapping)
@@ -134,10 +143,27 @@ searchForm.addEventListener('submit', (e) => {
         // Domain match
         let matchDomain = true;
         if (domain !== 'all') {
-            matchDomain = item.domain.toLowerCase().includes(domain);
+            if (domain === 'other') {
+                matchDomain = !['fine art', 'music', 'architecture'].includes(item.domain.toLowerCase());
+            } else {
+                matchDomain = item.domain.toLowerCase().includes(domain);
+            }
         }
 
-        return matchKeyword && matchPeriod && matchDomain;
+        // Museum match
+        let matchMuseum = true;
+        if (museum !== 'all') {
+            const lowerMuseum = (item.museum || '').toLowerCase();
+            if (museum === 'other') {
+                matchMuseum = lowerMuseum === '' || lowerMuseum.includes('n/a') || lowerMuseum.includes('other');
+            } else if (museum === 'artic') {
+                matchMuseum = lowerMuseum.includes('chicago');
+            } else {
+                matchMuseum = lowerMuseum.includes(museum);
+            }
+        }
+
+        return matchKeyword && matchPeriod && matchDomain && matchMuseum;
     });
 
     renderCards(filtered);
