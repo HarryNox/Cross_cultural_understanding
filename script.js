@@ -1,72 +1,4 @@
-// Dummy Data for the Semantic Database
-const dummyData = [
-    {
-        id: 1,
-        title: "A Sunday on La Grande Jatte",
-        author: "Georges Seurat",
-        style: "Post-Impressionism",
-        domain: "Fine Art",
-        year: "1884-1886",
-        region: "France",
-        museum: "Art Institute of Chicago",
-        tags: ["Pointillism", "Color Theory"]
-    },
-    {
-        id: 2,
-        title: "Symphony No. 5 in C minor, Op. 67",
-        author: "Ludwig van Beethoven",
-        style: "Viennese Classicism",
-        domain: "Music",
-        year: "1808",
-        region: "Germany/Austria",
-        museum: "N/A",
-        tags: ["Sonata Form", "Per Aspera Ad Astra"]
-    },
-    {
-        id: 3,
-        title: "The Last Supper",
-        author: "Leonardo da Vinci",
-        style: "High Renaissance",
-        domain: "Fine Art",
-        year: "1495-1498",
-        region: "Italy",
-        museum: "Santa Maria delle Grazie (Milan)",
-        tags: ["Linear Perspective", "Geometry"]
-    },
-    {
-        id: 4,
-        title: "Broadway Boogie Woogie",
-        author: "Piet Mondrian",
-        style: "Abstract / De Stijl",
-        domain: "Fine Art",
-        year: "1942-1943",
-        region: "Netherlands",
-        museum: "MoMA (New York)",
-        tags: ["Grid", "Primary Colors"]
-    },
-    {
-        id: 5,
-        title: "The Milkmaid",
-        author: "Johannes Vermeer",
-        style: "Baroque",
-        domain: "Fine Art",
-        year: "c. 1660",
-        region: "Netherlands",
-        museum: "Rijksmuseum (Amsterdam)",
-        tags: ["Camera Obscura", "Light"]
-    },
-    {
-        id: 6,
-        title: "String Quartet No. 2, Op. 10",
-        author: "Arnold Schoenberg",
-        style: "Modern",
-        domain: "Music",
-        year: "1908",
-        region: "Austria",
-        museum: "N/A",
-        tags: ["Atonality", "12-tone technique"]
-    }
-];
+// Dummy data is now loaded from data.js
 
 const galleryGrid = document.getElementById('gallery-grid');
 const searchForm = document.getElementById('search-form');
@@ -114,10 +46,8 @@ function renderCards(data) {
 // Initial render
 renderCards(dummyData);
 
-// Form submission handler (Mockup logic)
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
+// Filter function
+function filterData() {
     const keyword = document.getElementById('keyword').value.toLowerCase();
     const period = document.getElementById('period').value;
     const domain = document.getElementById('domain').value;
@@ -167,4 +97,15 @@ searchForm.addEventListener('submit', (e) => {
     });
 
     renderCards(filtered);
+}
+
+// Event Listeners for real-time filtering
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    filterData();
 });
+
+document.getElementById('keyword').addEventListener('input', filterData);
+document.getElementById('period').addEventListener('change', filterData);
+document.getElementById('domain').addEventListener('change', filterData);
+document.getElementById('museum').addEventListener('change', filterData);
