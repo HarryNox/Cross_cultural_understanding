@@ -119,3 +119,135 @@ document.getElementById('keyword').addEventListener('input', filterData);
 document.getElementById('period').addEventListener('change', filterData);
 document.getElementById('domain').addEventListener('change', filterData);
 document.getElementById('museum').addEventListener('change', filterData);
+
+// --- News and Admin Mode Logic ---
+const ADMIN_PASSWORD = "TakamatsuEdit";
+let isAdmin = sessionStorage.getItem('lumina_admin') === 'true';
+
+const newsListEl = document.getElementById('news-list');
+const adminDashboard = document.getElementById('admin-dashboard');
+const adminLoginBtn = document.getElementById('admin-login-btn');
+const addNewsBtn = document.getElementById('add-news-btn');
+const newsInput = document.getElementById('news-input');
+
+// Default mock news if local storage is empty
+const defaultNews = [
+    { id: Date.now(), text: "Welcome to Lumina! Explore the interconnectedness of European cultural heritage.", date: "2026/07/03" }
+];
+
+function getNews() {
+    const stored = localStorage.getItem('lumina_news');
+    return stored ? JSON.parse(stored) : defaultNews;
+}
+
+function saveNews(newsArray) {
+    localStorage.setItem('lumina_news', JSON.stringify(newsArray));
+}
+
+function renderNews() {
+    if (!newsListEl) return;
+    const newsArray = getNews();
+    newsListEl.innerHTML = '';
+    
+    if (newsArray.length === 0) {
+        newsListEl.innerHTML = '<li style="color: var(--text-secondary);">No recent announcements.</li>';
+    } else {
+        // Sort by id descending (newest first)
+        newsArray.sort((a, b) => b.id - a.id).forEach(item => {
+            const li = document.createElement('li');
+            li.style.padding = '0.75rem 0';
+            li.style.borderBottom = '1px solid var(--border-color)';
+            li.style.display = 'flex';
+            li.style.justifyContent = 'space-between';
+            li.style.alignItems = 'center';
+
+            const contentSpan = document.createElement('span');
+            contentSpan.innerHTML = `<span style="color: var(--text-secondary); margin-right: 1rem; font-family: monospace;">[${item.date}]</span> <span style="color: var(--text-primary);">${item.text}</span>`;
+            li.appendChild(contentSpan);
+
+            if (isAdmin) {
+                const delBtn = document.createElement('button');
+                delBtn.textContent = 'Delete';
+                delBtn.style.padding = '0.2rem 0.5rem';
+                delBtn.style.background = 'transparent';
+                delBtn.style.color = '#ff6b6b';
+                delBtn.style.border = '1px solid #ff6b6b';
+                delBtn.style.borderRadius = 'var(--radius-sm)';
+                delBtn.style.cursor = 'pointer';
+                delBtn.style.fontSize = '0.75rem';
+                delBtn.onclick = () => {
+                    if(confirm('Delete this news?')) {
+                        const updated = getNews().filter(n => n.id !== item.id);
+                        saveNews(updated);
+                        renderNews();
+                    }
+                };
+                li.appendChild(delBtn);
+            }
+
+            newsListEl.appendChild(li);
+        });
+    }
+}
+
+function updateAdminUI() {
+    if (isAdmin) {
+        if(adminDashboard) adminDashboard.style.display = 'block';
+        if(adminLoginBtn) adminLoginBtn.textContent = 'Logout Admin';
+    } else {
+        if(adminDashboard) adminDashboard.style.display = 'none';
+        if(adminLoginBtn) adminLoginBtn.textContent = 'Admin Login';
+    }
+    renderNews(); // Re-render to show/hide delete buttons
+}
+
+// Admin Login/Logout Event
+if (adminLoginBtn) {
+    adminLoginBtn.addEventListener('click', () => {
+        if (isAdmin) {
+            isAdmin = false;
+            sessionStorage.removeItem('lumina_admin');
+            alert('Logged out from Admin Mode.');
+        } else {
+            const pwd = prompt("Enter Administrator Password:");
+            if (pwd === ADMIN_PASSWORD) {
+                isAdmin = true;
+                sessionStorage.setItem('lumina_admin', 'true');
+                alert('Successfully entered Admin Mode.');
+            } else if (pwd !== null) {
+                alert('Incorrect password.');
+            }
+        }
+        updateAdminUI();
+    });
+}
+
+// Add News Event
+if (addNewsBtn) {
+    addNewsBtn.addEventListener('click', () => {
+        const text = newsInput.value.trim();
+        if (!text) return;
+        
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        
+        const newObj = {
+            id: Date.now(),
+            text: text,
+            date: `${yyyy}/${mm}/${dd}`
+        };
+        
+        const newsArray = getNews();
+        newsArray.push(newObj);
+        saveNews(newsArray);
+        
+        newsInput.value = '';
+        renderNews();
+    });
+}
+
+// Initializations
+updateAdminUI();
+

@@ -19,6 +19,26 @@
         </nav>
     </header>
 
+    <!-- News Section -->
+    <section id="news-section" style="max-width: 1200px; margin: 2rem auto; padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--radius-lg); border-left: 4px solid var(--accent-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-family: 'Playfair Display', serif; margin: 0; color: var(--text-primary);">Latest News</h3>
+        </div>
+        
+        <!-- Admin Dashboard (Hidden by default) -->
+        <div id="admin-dashboard" style="display: none; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-primary); border: 1px dashed var(--accent-color); border-radius: var(--radius-md);">
+            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--accent-color);">Admin Dashboard</h4>
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="news-input" placeholder="Enter new announcement..." style="flex: 1; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-sm);">
+                <button id="add-news-btn" style="padding: 0.5rem 1rem; background: var(--accent-color); color: var(--bg-primary); border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: bold;">Add News</button>
+            </div>
+        </div>
+
+        <ul id="news-list" style="list-style-type: none; padding: 0; margin: 0; font-size: 0.9rem;">
+            <!-- News items will be injected here via JS -->
+        </ul>
+    </section>
+
     <main class="main-content">
         <section class="hero">
             <h1 class="hero-title">Discover the interconnectedness of European Culture.</h1>
@@ -95,8 +115,9 @@
     <script src="data.js"></script>
     <script src="script.js"></script>
 
-    <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.8rem; border-top: 1px solid var(--border-color); margin-top: 4rem;">
-        <p>Lumina v2.0.1 (Real Historical Data Update)</p>
+    <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.8rem; border-top: 1px solid var(--border-color); margin-top: 4rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+        <p style="margin: 0;">Lumina v2.0.2 (News & Admin Update)</p>
+        <button id="admin-login-btn" style="background: none; border: none; color: var(--text-secondary); text-decoration: underline; cursor: pointer; font-size: 0.75rem; opacity: 0.6;">Admin Login</button>
     </footer>
 </body>
 </html>
