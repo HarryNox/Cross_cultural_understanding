@@ -65,9 +65,19 @@ function filterData() {
         let matchPeriod = true;
         if (period !== 'all') {
             const lowerStyle = item.style.toLowerCase();
-            matchPeriod = lowerStyle.includes(period) || 
-                          (period === 'modern' && lowerStyle.includes('abstract')) ||
-                          (period === 'renaissance' && lowerStyle.includes('renaissance'));
+            if (period === 'renaissance') {
+                matchPeriod = lowerStyle.includes('renaissance') || lowerStyle.includes('gothic');
+            } else if (period === 'baroque') {
+                matchPeriod = lowerStyle.includes('baroque');
+            } else if (period === 'romanticism') {
+                matchPeriod = lowerStyle.includes('romanticism') || lowerStyle.includes('neoclassicism') || lowerStyle.includes('classicism') || lowerStyle.includes('classical');
+            } else if (period === 'impressionism') {
+                matchPeriod = lowerStyle.includes('impressionism') || lowerStyle.includes('realism');
+            } else if (period === 'modern') {
+                matchPeriod = lowerStyle.includes('modern') || lowerStyle.includes('abstract') || lowerStyle.includes('contemporary');
+            } else {
+                matchPeriod = lowerStyle.includes(period);
+            }
         }
 
         // Domain match
