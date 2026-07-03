@@ -1,5 +1,7 @@
 :root {
     --bg-color: #121212;
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
     --surface-color: #1e1e1e;
     --text-primary: #f0f0f0;
     --text-secondary: #a0a0a0;
